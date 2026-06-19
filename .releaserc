@@ -32,10 +32,10 @@
       {
         "assets": [
           {
-            "path": "patch-library/build/libs/morphe-patches-library-!(*sources*|*javadoc*).jar"
+            "path": "patch-library/build/libs/instagram-morphe-patches-library-!(*sources*|*javadoc*).jar"
           },
           {
-            "path": "extension-library/build/outputs/aar/morphe-extensions-library-release.aar"
+            "path": "extension-library/build/outputs/aar/instagram-morphe-extensions-library-release.aar"
           }
         ],
         "successComment": false

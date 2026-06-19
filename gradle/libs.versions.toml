@@ -2,6 +2,7 @@
 
 [versions]
 morphe-patcher = "1.5.2-dev.1" # TODO: Change to 1.5.2 stable
+morphe-patches-library = "1.2.0"
 # Tracking https://github.com/google/smali/issues/100.
 smali = "d92701d947"
 agp = "9.1.0"
@@ -14,6 +15,10 @@ annotation = { module = "androidx.annotation:annotation", version.ref = "annotat
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 morphe-patcher = { module = "app.morphe:morphe-patcher", version.ref = "morphe-patcher" }
 smali = { module = "com.github.MorpheApp.smali:smali", version.ref = "smali" }
+
+morphe-patches-library = { module = "app.morphe:morphe-patches-library", version.ref = "morphe-patches-library" }
+morphe-extensions-library = { module = "app.morphe:morphe-extensions-library", version.ref = "morphe-patches-library" }
+
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
