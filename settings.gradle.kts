@@ -1,4 +1,4 @@
-rootProject.name = "morphe-patches-library"
+rootProject.name = "instagram-morphe-patches-library"
 
 pluginManagement {
     repositories {

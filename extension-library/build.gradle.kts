@@ -4,14 +4,14 @@ plugins {
 }
 
 group = "app.morphe"
-base.archivesName = "morphe-extensions-library"
+base.archivesName = "instagram-morphe-extensions-library"
 
 android {
     namespace = "app.morphe.extension.library"
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 26
     }
 
     compileOptions {
@@ -29,6 +29,7 @@ android {
 
 dependencies {
     compileOnly(libs.annotation)
+    compileOnly(libs.morphe.extensions.library)
 }
 
 afterEvaluate {
@@ -36,7 +37,7 @@ afterEvaluate {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/MorpheApp/morphe-patches-library")
+                url = uri("https://maven.pkg.github.com/brosssh/instagram-morphe-patches-library")
                 credentials {
                     username = providers.gradleProperty("gpr.user").getOrElse(System.getenv("GITHUB_ACTOR"))
                     password = providers.gradleProperty("gpr.key").getOrElse(System.getenv("GITHUB_TOKEN"))
@@ -49,13 +50,13 @@ afterEvaluate {
                 from(components["release"])
 
                 groupId = "app.morphe"
-                artifactId = "morphe-extensions-library"
+                artifactId = "instagram-morphe-extensions-library"
                 version = project.version.toString()
 
                 pom {
-                    name = "Morphe Extensions Library"
-                    description = "Common extension utilities for Morphe patch bundles"
-                    url = "https://morphe.software"
+                    name = "Morphe Extensions Library for Instagram"
+                    description = "Common extension utilities for Instagram Morphe patch bundles"
+                    url = ""
                     licenses {
                         license {
                             name = "GNU General Public License v3.0"
@@ -63,11 +64,11 @@ afterEvaluate {
                     }
                     developers {
                         developer {
-                            name = "MorpheApp"
+                            name = "brosssh"
                         }
                     }
                     scm {
-                        url = "https://github.com/MorpheApp/morphe-patches-library"
+                        url = "https://github.com/brosssh/instagram-morphe-patches-library"
                     }
                 }
             }

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "app.morphe"
-base.archivesName = "morphe-patches-library"
+base.archivesName = "instagram-morphe-patches-library"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -27,6 +27,8 @@ dependencies {
 
     implementation(libs.morphe.patcher)
     implementation(libs.smali)
+
+    api(libs.morphe.patches.library)
 }
 
 publishing {
@@ -34,7 +36,7 @@ publishing {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/MorpheApp/morphe-patches-library")
+                url = uri("https://maven.pkg.github.com/brosssh/instagram-morphe-patches-library")
                 credentials {
                     username = providers.gradleProperty("gpr.user").getOrElse(System.getenv("GITHUB_ACTOR"))
                     password = providers.gradleProperty("gpr.key").getOrElse(System.getenv("GITHUB_TOKEN"))
@@ -46,13 +48,13 @@ publishing {
             from(components["java"])
 
             groupId = "app.morphe"
-            artifactId = "morphe-patches-library"
+            artifactId = "instagram-morphe-patches-library"
             version = project.version.toString()
 
             pom {
-                name = "Morphe Patches Library"
-                description = "Common patch utilities for Morphe patch bundles"
-                url = "https://morphe.software"
+                name = "Instagram Morphe Patches Library"
+                description = "Common patch utilities for Instagram Morphe patch bundles"
+                url = ""
                 licenses {
                     license {
                         name = "GNU General Public License v3.0"
@@ -60,11 +62,11 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = "MorpheApp"
+                        name = "brosssh"
                     }
                 }
                 scm {
-                    url = "https://github.com/MorpheApp/morphe-patches-library"
+                    url = "https://github.com/brosssh/instagram-morphe-patches-library"
                 }
             }
         }
