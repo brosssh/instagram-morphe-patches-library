@@ -1,3 +1,10 @@
+## [1.0.1-dev.1](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.0.0...v1.0.1-dev.1) (2026-06-19)
+
+
+### Bug Fixes
+
+* Use api instead of implementation ([846d7b8](https://github.com/brosssh/instagram-morphe-patches-library/commit/846d7b84b2353d03d96ea32402f148467cc3774c))
+
 # 1.0.0 (2026-06-19)
 
 
