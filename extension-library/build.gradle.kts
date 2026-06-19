@@ -29,7 +29,7 @@ android {
 
 dependencies {
     compileOnly(libs.annotation)
-    compileOnly(libs.morphe.extensions.library)
+    api(libs.morphe.extensions.library)
 }
 
 afterEvaluate {
