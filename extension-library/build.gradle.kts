@@ -7,7 +7,7 @@ group = "app.morphe"
 base.archivesName = "instagram-morphe-extensions-library"
 
 android {
-    namespace = "app.morphe.extension.library"
+    namespace = "app.morphe.extension.library.instagram"
     compileSdk = 36
 
     defaultConfig {
@@ -29,7 +29,7 @@ android {
 
 dependencies {
     compileOnly(libs.annotation)
-    api(libs.morphe.extensions.library)
+    compileOnly(libs.morphe.extensions.library)
 }
 
 afterEvaluate {
