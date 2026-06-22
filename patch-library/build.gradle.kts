@@ -28,7 +28,7 @@ dependencies {
     implementation(libs.morphe.patcher)
     implementation(libs.smali)
 
-    api(libs.morphe.patches.library)
+    compileOnly(libs.morphe.patches.library)
 }
 
 publishing {
