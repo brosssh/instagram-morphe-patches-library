@@ -1,3 +1,10 @@
+# [1.1.0-dev.1](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.0.1...v1.1.0-dev.1) (2026-06-22)
+
+
+### Features
+
+* Add JsonParserFingerprint ([d9b33ee](https://github.com/brosssh/instagram-morphe-patches-library/commit/d9b33ee69cb897977455b69dc21b1602610dce6f))
+
 ## [1.0.1](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.0.0...v1.0.1) (2026-06-22)
 
 
