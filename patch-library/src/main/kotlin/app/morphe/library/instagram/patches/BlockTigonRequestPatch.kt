@@ -3,9 +3,11 @@ package app.morphe.library.instagram.patches
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.getInstruction
+import app.morphe.patcher.patch.BytecodePatchContext
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstructionOrThrow
+import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.FieldReference
 
@@ -14,30 +16,30 @@ private const val EXTENSION_CLASS_DESCRIPTOR =
 
 private object MakeTigonRequestFingerprint : Fingerprint(
     definingClass = "Lcom/instagram/api/tigon/TigonServiceLayer;",
-    name = "makeTigonRequest"
+    name = "startRequest"
 )
 
-private val blockUrlBasePatch = bytecodePatch {
+private object GetBlockedUrlsFingerprint : Fingerprint(
+    definingClass = EXTENSION_CLASS_DESCRIPTOR,
+    name = "<clinit>"
+)
+
+@Suppress("unused")
+val blockUrlBasePatch = bytecodePatch {
     dependsOn(instagramExtensionPatch)
 
     execute {
-        with(MakeTigonRequestFingerprint.method) {
+        MakeTigonRequestFingerprint.method.apply {
             val uriFieldIndex = indexOfFirstInstructionOrThrow {
                 getReference<FieldReference>()?.type == "Ljava/net/URI;"
             }
 
-            val uriField = getInstruction<TwoRegisterInstruction>(uriFieldIndex)
-                .getReference<FieldReference>()!!
-
-            val uriFieldDescriptor = "${uriField.definingClass}->${uriField.name}:Ljava/net/URI;"
+            val uriField = getInstruction<TwoRegisterInstruction>(uriFieldIndex).registerA
 
             addInstructions(
-                0,
+                uriFieldIndex + 1,
                 """
-                    iget-object v0, p1, $uriFieldDescriptor
-                    invoke-virtual {v0}, Ljava/net/URI;->toString()Ljava/lang/String;
-                    move-result-object v0
-                    invoke-static {v0}, $EXTENSION_CLASS_DESCRIPTOR->checkAndBlockUrl(Ljava/lang/String;)V
+                    invoke-static/range {v$uriField .. v$uriField}, $EXTENSION_CLASS_DESCRIPTOR->checkAndBlockUrl(Ljava/net/URI;)V
                 """
             )
         }
@@ -45,16 +47,18 @@ private val blockUrlBasePatch = bytecodePatch {
 }
 
 @Suppress("unused")
-fun blockUrl(urlSubstring: String) = bytecodePatch {
-    dependsOn(blockUrlBasePatch)
+context(_: BytecodePatchContext)
+fun blockUrl(vararg urlSubstrings: String) = GetBlockedUrlsFingerprint.method.apply {
+    val returnIndex = indexOfFirstInstructionOrThrow(Opcode.RETURN_VOID)
 
-    execute {
-        MakeTigonRequestFingerprint.method.addInstructions(
-            0,
+    addInstructions(
+        returnIndex,
+        urlSubstrings.joinToString("\n") {
             """
-                const-string v0, "$urlSubstring"
-                invoke-static {v0}, $EXTENSION_CLASS_DESCRIPTOR->addBlockedUrl(Ljava/lang/String;)V
+                const-string v0, "$it"
+                sget-object v1, $EXTENSION_CLASS_DESCRIPTOR->BLOCKED_URLS:Ljava/util/Set;
+                invoke-interface {v1, v0}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
             """
-        )
-    }
+        }
+    )
 }
