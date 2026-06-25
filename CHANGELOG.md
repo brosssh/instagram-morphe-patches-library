@@ -1,3 +1,10 @@
+# [1.1.0-dev.2](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-06-25)
+
+
+### Features
+
+* Add blockUrl patch + refactor ([e038270](https://github.com/brosssh/instagram-morphe-patches-library/commit/e0382708e7e65cd481596a01ecb0e9949e7b572c))
+
 # [1.1.0-dev.1](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.0.1...v1.1.0-dev.1) (2026-06-22)
 
 
