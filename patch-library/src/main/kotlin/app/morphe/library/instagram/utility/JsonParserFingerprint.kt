@@ -1,9 +1,11 @@
 package app.morphe.library.instagram.utility
 
+import app.morphe.library.instagram.utility.JsonParserFingerprint.Companion.stringDictionaryMethod
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.Match
 import app.morphe.patcher.extensions.InstructionExtensions.getInstruction
 import app.morphe.patcher.extensions.InstructionExtensions.instructions
+import app.morphe.patcher.opcode
 import app.morphe.patcher.patch.BytecodePatchContext
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.string
@@ -12,14 +14,13 @@ import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstruction
 import app.morphe.util.indexOfFirstStringInstruction
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
+import com.android.tools.smali.dexlib2.AccessFlags
+import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.NarrowLiteralInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.SwitchPayload
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 import java.util.logging.Logger
-
-private const val STRING_DICTIONARY_CLASS = "000;"
-private const val STRING_DICTIONARY_METHOD = "A00"
 
 data class JsonParserMatch(
     val method: MutableMethod,
@@ -131,10 +132,15 @@ open class JsonParserFingerprint(
                     .matchAll().also { _jsonParserFullList = it }
 
         context(_: BytecodePatchContext)
-        private val stringDictionaryMethod: MutableMethod
+        internal val stringDictionaryMethod: MutableMethod
             get() = Fingerprint(
-                definingClass = STRING_DICTIONARY_CLASS,
-                name = STRING_DICTIONARY_METHOD
+                returnType = "Ljava/lang/String;",
+                accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.STATIC),
+                parameters = listOf("I"),
+                filters = listOf(
+                    opcode(Opcode.PACKED_SWITCH),
+                ),
+                strings = listOf("auto_load_more_enabled")
             ).method
     }
 }
@@ -146,7 +152,7 @@ fun MutableMethod.indexOfFirstDictionaryCall(switchKey: Int): Int? {
 
     for (index in 1 until instructions.size) {
         val ref = getInstruction(index).getReference<MethodReference>()
-        if (ref?.name == STRING_DICTIONARY_METHOD && ref.definingClass == STRING_DICTIONARY_CLASS) {
+        if (ref?.name == stringDictionaryMethod.name && ref.definingClass == stringDictionaryMethod.definingClass) {
             val literal = getInstruction<NarrowLiteralInstruction>(index - 1)
             if (literal.narrowLiteral == switchKey) return index - 1
         }
