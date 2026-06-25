@@ -7,7 +7,7 @@ group = "app.morphe"
 base.archivesName = "instagram-morphe-extensions-library"
 
 android {
-    namespace = "app.morphe.extension.library.instagram"
+    namespace = "app.morphe.library.extension.instagram"
     compileSdk = 36
 
     defaultConfig {

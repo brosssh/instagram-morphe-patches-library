@@ -1,4 +1,4 @@
-package app.morphe.patches.instagram.misc
+package app.morphe.library.instagram.patches
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.patch.BytecodePatchBuilder

@@ -4,7 +4,7 @@
  * See the included NOTICE file for GPLv3 §7(b) terms that apply to this code.
  */
 
-package app.morphe.patches.instagram.misc
+package app.morphe.library.instagram.patches
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
@@ -18,7 +18,7 @@ import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
 private const val EXTENSION_CLASS_DESCRIPTOR =
-    "Lapp/morphe/extension/instagram/flags/OverrideMobileConfigBooleanFlagPatch;"
+    "Lapp/morphe/library/extension/instagram/patches/OverrideMobileConfigBooleanFlagPatch;"
 
 private object GetOverridesFingerprint : Fingerprint (
     definingClass = EXTENSION_CLASS_DESCRIPTOR,
@@ -81,17 +81,7 @@ private val overrideMobileConfigBooleanFlagPatch = bytecodePatch {
 }
 
 @Suppress("unused")
-fun overrideMobileConfigBooleanFlag(
-    name: String? = null,
-    description: String? = null,
-    default: Boolean = true,
-
-    override: Pair<String, Boolean>
-) = bytecodePatch(
-    name = name,
-    description = description,
-    default = default
-) {
+fun overrideMobileConfigBooleanFlag(override: Pair<String, Boolean>) = bytecodePatch {
     dependsOn(overrideMobileConfigBooleanFlagPatch)
 
     execute {

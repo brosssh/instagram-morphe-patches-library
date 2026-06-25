@@ -1,4 +1,4 @@
-package app.morphe.utility.instagram
+package app.morphe.library.instagram.utility
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstruction
 import app.morphe.patcher.extensions.InstructionExtensions.getInstruction
