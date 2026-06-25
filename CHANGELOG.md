@@ -1,3 +1,10 @@
+# [1.1.0-dev.4](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-06-25)
+
+
+### Performance Improvements
+
+* Improve json parser fingerprint ([6cf5736](https://github.com/brosssh/instagram-morphe-patches-library/commit/6cf5736fb427b3f2efa2bd08cddbc825fb85788f))
+
 # [1.1.0-dev.3](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-06-25)
 
 
