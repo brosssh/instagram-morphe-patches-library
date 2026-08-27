@@ -39,7 +39,7 @@ public class FilterStoriesListPatch {
             Object storyType = f.get(storyItem);
             if (storyType == null) continue;
             String currentStoryType = storyType.toString();
-            Logger.printInfo(() -> "Current story type :" + currentStoryType);
+            Logger.printInfo(() -> "Current story type:" + currentStoryType);
 
             if (BLOCKED_STORY_TYPES.contains(currentStoryType)) {
                 Logger.printInfo(() -> "Removing story type:" + currentStoryType);
@@ -47,5 +47,27 @@ public class FilterStoriesListPatch {
             }
         }
         return patchedStoryList;
+    }
+
+    public static void addStoryIfNotBlocked(
+            List<Object> storiesList,
+            Object currentStory,
+            String reelTypeFieldName
+    ) throws NoSuchFieldException, IllegalAccessException {
+        Field f = currentStory.getClass().getDeclaredField(reelTypeFieldName);
+        f.setAccessible(true);
+        Object storyType = f.get(currentStory);
+        if (storyType == null) return;
+
+        String currentStoryType = storyType.toString();
+        Logger.printInfo(() -> "Current story type:" + currentStoryType);
+
+        if (BLOCKED_STORY_TYPES.contains(currentStoryType)) {
+            Logger.printInfo(() -> "Not adding story with type:" + currentStoryType);
+            return;
+        }
+
+        Logger.printInfo(() -> "Adding story type with type:" + currentStoryType);
+        storiesList.add(currentStory);
     }
 }

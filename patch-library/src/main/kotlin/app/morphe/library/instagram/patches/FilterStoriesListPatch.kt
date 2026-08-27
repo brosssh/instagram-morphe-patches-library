@@ -4,15 +4,15 @@ import app.morphe.library.instagram.utility.JsonParserFingerprint
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.getInstruction
+import app.morphe.patcher.extensions.InstructionExtensions.removeInstruction
 import app.morphe.patcher.patch.BytecodePatchContext
 import app.morphe.patcher.patch.bytecodePatch
-import app.morphe.util.addInstructionsAtControlFlowLabel
 import app.morphe.util.findFreeRegister
 import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstructionOrThrow
 import com.android.tools.smali.dexlib2.Opcode
-import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction
-import com.android.tools.smali.dexlib2.iface.reference.FieldReference
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private const val EXTENSION_CLASS_DESCRIPTOR =
     "Lapp/morphe/library/extension/instagram/patches/FilterStoriesListPatch;"
@@ -43,28 +43,35 @@ val filterStoriesListPatch = bytecodePatch {
     execute {
         with(TrayFingerprint.match()) {
             method.apply {
-                val storiesListAssignmentIndex = indexOfFirstInstructionOrThrow(matchIndex) {
-                    opcode == Opcode.IPUT_OBJECT && getReference<FieldReference>()?.type == "Ljava/util/List;"
+                val addStoryObjectIndex = indexOfFirstInstructionOrThrow(matchIndex) {
+                    getReference<MethodReference>().let {
+                        it?.name == "add" &&
+                                it.definingClass == "Ljava/util/AbstractCollection;"
+                    }
                 }
 
-                val storiesListRegister =
-                    getInstruction<TwoRegisterInstruction>(storiesListAssignmentIndex).registerA
+                val (storiesListRegister, currentStoryObjectRegister) =
+                    with(getInstruction<FiveRegisterInstruction>(addStoryObjectIndex)) {
+                        registerC to registerD
+                    }
 
                 val freeRegister = findFreeRegister(
-                    storiesListAssignmentIndex,
-                    storiesListRegister
+                    addStoryObjectIndex,
+                    storiesListRegister,
+                    currentStoryObjectRegister
                 )
 
                 val reelTypeFieldName = ReelResponseItemFingerprint.classDef.fields.first {
                     ReelTypeEnumFingerprint.matchAll().map { it.classDef.type }.contains(it.type)
                 }.name
 
-                addInstructionsAtControlFlowLabel(
-                    storiesListAssignmentIndex,
+                removeInstruction(addStoryObjectIndex)
+
+                addInstructions(
+                    addStoryObjectIndex,
                     """
                         const-string v$freeRegister, "$reelTypeFieldName"
-                        invoke-static { v$storiesListRegister, v$freeRegister }, $EXTENSION_CLASS_DESCRIPTOR->removeSuggestedStories(Ljava/util/List;Ljava/lang/String;)Ljava/util/List;
-                        move-result-object v$storiesListRegister
+                        invoke-static { v$storiesListRegister, v$currentStoryObjectRegister, v$freeRegister }, $EXTENSION_CLASS_DESCRIPTOR->addStoryIfNotBlocked(Ljava/util/List;Ljava/lang/Object;Ljava/lang/String;)V
                     """
                 )
             }
