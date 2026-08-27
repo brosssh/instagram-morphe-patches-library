@@ -1,3 +1,10 @@
+# [1.1.0-dev.5](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-08-27)
+
+
+### Bug Fixes
+
+* Adjust filters story patch to support newer version ([b24978f](https://github.com/brosssh/instagram-morphe-patches-library/commit/b24978f0ef833e63e945b071baebe740e9cfbef4))
+
 # [1.1.0-dev.4](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-06-25)
 
 
