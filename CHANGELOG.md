@@ -1,3 +1,22 @@
+# [1.1.0](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.0.1...v1.1.0) (2026-09-01)
+
+
+### Bug Fixes
+
+* Adjust filters story patch to support newer version ([b24978f](https://github.com/brosssh/instagram-morphe-patches-library/commit/b24978f0ef833e63e945b071baebe740e9cfbef4))
+* Fix blockUrl patch ([f82b0c9](https://github.com/brosssh/instagram-morphe-patches-library/commit/f82b0c90a05dfa6d75bbf986b50d7844db7e5df3))
+
+
+### Features
+
+* Add blockUrl patch + refactor ([e038270](https://github.com/brosssh/instagram-morphe-patches-library/commit/e0382708e7e65cd481596a01ecb0e9949e7b572c))
+* Add JsonParserFingerprint ([d9b33ee](https://github.com/brosssh/instagram-morphe-patches-library/commit/d9b33ee69cb897977455b69dc21b1602610dce6f))
+
+
+### Performance Improvements
+
+* Improve json parser fingerprint ([6cf5736](https://github.com/brosssh/instagram-morphe-patches-library/commit/6cf5736fb427b3f2efa2bd08cddbc825fb85788f))
+
 # [1.1.0-dev.5](https://github.com/brosssh/instagram-morphe-patches-library/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-08-27)
 
 
