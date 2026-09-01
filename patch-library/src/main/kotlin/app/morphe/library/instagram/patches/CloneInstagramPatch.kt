@@ -4,7 +4,7 @@
  * See the included NOTICE file for GPLv3 §7(b) terms that apply to this code.
  */
 
-package app.morphe.patches.instagram.misc
+package app.morphe.library.instagram.patches
 
 import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.BytecodePatchContext

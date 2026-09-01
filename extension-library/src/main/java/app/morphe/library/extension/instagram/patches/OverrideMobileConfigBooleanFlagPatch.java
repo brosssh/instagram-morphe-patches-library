@@ -4,7 +4,7 @@
  * See the included NOTICE file for GPLv3 §7(b) terms that apply to this code.
  */
 
-package app.morphe.extension.instagram.flags;
+package app.morphe.library.extension.instagram.patches;
 
 import java.util.HashMap;
 import java.util.Map;
